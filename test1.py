@@ -12,6 +12,7 @@ import sys
 import re
 
 bathPath = "E:/mycode/beauty"
+newPath = "E:/mycode/beauty/new"
 
 def getFile(loc_url):
 	'''
@@ -26,13 +27,22 @@ def getFile(loc_url):
 				loc.append(f)
 	return loc
 
-def resizeImage(in_url,out_url,size):
+def resizeImage(in_url,out_url,size=(35,35)):
 	'''
 	Change the Image in in_url and save it in the out_url
 	size if a 
 	'''
+	if os.path.exists(in_url):
+		Image.open(in_url).resize((size)).save(out_url,'JPEG')
 
+def Test(str1):
+	print "hello"+str(str1)
 if __name__=="__main__":
-	loc = getFile(bathPath)
-	img1 = Image.open(os.path.join(bathPath,loc[1]))
-	img1.show()
+	Test("world")
+
+# 	loc = getFile(bathPath)
+# 	# img1 = Image.open(os.path.join(bathPath,loc[1]))
+# 	# img1.show()
+# 	for f in loc:
+# 		resizeImage(os.path.join(bathPath,f),os.path.join(newPath,"new_"+str(f)),(35,35))
+
