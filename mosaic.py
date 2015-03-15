@@ -49,7 +49,7 @@ def SaveImageMean(fileList):
 	'''
 	save the list of the Image and the sequence
 	'''
-	colorlist = [[] for i in xrange(255)]
+	colorlist = [[] for i in xrange(256)]
 	for f in fileList:
 		# print ("Get data from Image %s" %f)
 		seq = getMean(os.path.join(newPath,f))
@@ -65,7 +65,7 @@ def getProbList(fileList,pix):
 	if len(fileList[pix]) is not 0:
 		return fileList[pix]
 	else:
-		for i in xrange(100):
+		for i in xrange(50):
 			if pix+i <254:
 				if len(fileList[pix+i]) != 0:
 					return fileList[pix+i]
@@ -97,25 +97,27 @@ def createImage(in_file):
 		#print ("paste file %s" %f)
 		newImg.paste(Image.open(os.path.join(newPath,f)),(x0,y0,x1,y1))
 		count +=1
-		x0 =(count%35)*35
+		x0 =(count%50)*35
 		x1 = x0+35
-		y0 = count//35*35
+		y0 = count//50*35
 		y1 = y0+35
 	return newImg
-
-
 
 
 def processDemo(url):
 	img = Image.open(url).convert("L")
 	w,h = img.size
-	img2 = img.resize((35,int(h*35/w)))
-	img2.save("img2.jpeg","jpeg")
+	img2 = img.resize((50,int(h*50/w)))
+	img2.save("img4.jpeg","jpeg")
+
+
 if __name__=="__main__":
 	#print len([])
-	mimg = createImage("img2.jpeg")
-	baseimage = Image.open('demo2.png').resize(mimg.size)
-	newimg = Image.blend(mimg,baseimage,0.2).save("newimg.jpeg","jpeg")
+	#processDemo("../xiaoge.jpg")
+	mimg = createImage("img4.jpeg")
+	mimg.show()
+	#baseimage = Image.open('demo2.png').resize(mimg.size)
+	#newimg = Image.blend(mimg,baseimage,0.2).save("newimg.jpeg","jpeg")
 	#processDemo("demo2.png")
 	 # img3 = Image.open("img2.jpeg")
 	 # box = (100,100,img3.size[0]+100,img3.size[1]+100)
