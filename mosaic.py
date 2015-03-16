@@ -16,6 +16,10 @@ from previewProcess import getFile
 bathPath = "E:/mycode/beauty"
 newPath = "E:/mycode/beauty/new"
 
+SOURCE_WIDTH = 35
+SOURCE_HEIGHT = 35
+
+
 
 def resizeImage(in_url,out_url,size=(35,35)):
 	'''
@@ -76,31 +80,30 @@ def getProbList(fileList,pix):
 def getrandomfile(namelist):
 	return random.choice(namelist)
 
-def createImage(in_file):
+def createImage(in_file,filelist):
 	'''
 	use the file in the demo_list create the new Image;
 	'''
 	x0 = 0
-	x1 = 35
+	x1 = SOURCE_WIDTH
 	y0 = 0
-	y1 = 35
+	y1 = SOURCE_HEIGHT
 	count = 0
 	img_in = Image.open(in_file)
 	w,h = img_in.size
 	#print w
-	newImg = Image.new("RGB",(w*35,h*35))
-	loc = getFile(newPath)
-	list1 = SaveImageMean(loc)
+	newImg = Image.new("RGB",(w*SOURCE_WIDTH,h*SOURCE_HEIGHT))
+	list1 = SaveImageMean(filelist)
 	for pix in img_in.getdata():
 		flist = getProbList(list1,pix)
 		f = getrandomfile(flist)
 		#print ("paste file %s" %f)
 		newImg.paste(Image.open(os.path.join(newPath,f)),(x0,y0,x1,y1))
 		count +=1
-		x0 =(count%50)*35
-		x1 = x0+35
-		y0 = count//50*35
-		y1 = y0+35
+		x0 =(count%w)*SOURCE_WIDTH
+		x1 = x0+SOURCE_WIDTH
+		y0 = count//w*SOURCE_HEIGHT
+		y1 = y0+SOURCE_HEIGHT
 	return newImg
 
 
@@ -108,13 +111,14 @@ def processDemo(url):
 	img = Image.open(url).convert("L")
 	w,h = img.size
 	img2 = img.resize((50,int(h*50/w)))
-	img2.save("img4.jpeg","jpeg")
+	img2.save("Image/img4.jpeg","jpeg")
 
 
 if __name__=="__main__":
 	#print len([])
 	#processDemo("../xiaoge.jpg")
-	mimg = createImage("img4.jpeg")
+	loc = getFile(newPath)
+	mimg = createImage("Img/img4.jpeg",loc)
 	mimg.show()
 	#baseimage = Image.open('demo2.png').resize(mimg.size)
 	#newimg = Image.blend(mimg,baseimage,0.2).save("newimg.jpeg","jpeg")
